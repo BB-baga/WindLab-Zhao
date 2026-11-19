@@ -1381,6 +1381,56 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
 @media(max-width:1000px){.ops-main{grid-template-columns:1fr 1fr;gap:10px;left:14px;right:14px}.ops-right{gap:10px}.ops-task{padding:16px}.ops-readouts{gap:4px}.ops-readouts>div{padding:8px 5px}.ops-readouts strong{font-size:11px}.ops-actions{flex-wrap:wrap}.ops-toggle{padding:9px 12px}.ops-enter{min-width:100%;padding:10px}.ops-task h1{font-size:clamp(23px,3.2vw,35px)}}
 @media(max-width:700px){.ops-top{height:56px;padding:0 14px}.ops-identity>span:last-child,.ops-clock{display:none}.ops-alert{top:56px;gap:6px;font-size:10px;padding:8px 12px}.ops-alert-right{display:none}.ops-main{top:110px;bottom:48px;display:flex;flex-direction:column;overflow:auto}.ops-map-panel{min-height:34vh}.ops-right{min-height:450px;grid-template-rows:180px 1fr}.ops-task h1{font-size:29px}.ops-task p{font-size:13px}.ops-hint{font-size:9px;bottom:10px}}
 </style>
+<style id="student-straight-assist-css">
+/* Student force drawing: straight-line assist (stages 2 & 3). */
+.phase3-drawing-actions, .wt-south-actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.draw-assist-toggle {
+  min-width: 0;
+  white-space: nowrap;
+  border-color: rgba(95, 209, 225, .24) !important;
+  color: #bfdce7 !important;
+  background: rgba(12, 33, 48, .9) !important;
+  font-weight: 750;
+}
+.draw-assist-toggle.active {
+  color: #05222b !important;
+  background: linear-gradient(120deg, #7be6e9, #b8fbf0) !important;
+  border-color: rgba(151, 247, 246, .8) !important;
+  box-shadow: 0 4px 16px rgba(64, 213, 220, .1);
+}
+@media (max-width: 900px) {
+  .phase3-drawing-actions, .wt-south-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+</style>
+
+<style id="wt-slow-balance-ui">
+#canvas-container .sim-controls{gap:7px; flex-wrap:wrap; align-items:center; border:1px solid rgba(113,219,233,.24);}
+#canvas-container .sim-controls .icon-btn{border:1px solid transparent; border-radius:9px; padding:8px 10px; white-space:nowrap;}
+#canvas-container .sim-controls .wt-rate-btn{border-color:rgba(131,205,224,.25); color:#c3eef5; background:rgba(21,58,77,.50); font-variant-numeric:tabular-nums;}
+#canvas-container .sim-controls .wt-rate-btn.wt-slowed{background:rgba(59,175,196,.19); color:#f5ffff; border-color:rgba(113,235,245,.55);}
+#canvas-container .sim-controls .wt-force-btn{border-color:rgba(131,205,224,.25); color:#d8eef5; background:rgba(20,42,62,.70);}
+#canvas-container .sim-controls .wt-force-btn.wt-active{border-color:rgba(115,239,245,.68); background:rgba(36,132,150,.23); box-shadow:inset 0 0 0 1px rgba(112,234,241,.14);color:#f3feff;}
+#wt-force-balance[hidden]{display:none!important;}
+#canvas-container #wt-force-balance{position:absolute;right:16px;top:16px;z-index:9;box-sizing:border-box;width:310px;max-width:calc(100% - 20px);padding:15px 15px 13px;border:1px solid rgba(134,229,244,.36);border-radius:16px;background:linear-gradient(150deg,rgba(5,21,34,.97),rgba(7,29,44,.96));box-shadow:0 18px 50px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.05);backdrop-filter:blur(18px);pointer-events:none;}
+#wt-force-balance .wt-force-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;}
+#wt-force-balance .wt-force-heading span{font:700 10px/1.3 ui-monospace,Consolas,monospace;letter-spacing:.17em;color:#79bdcb;}
+#wt-force-balance .wt-force-heading strong{font-size:15px;white-space:nowrap;color:#f0fcff;}
+#wt-force-balance #wt-force-graph{width:100%;height:148px;background:rgba(3,12,21,.56);border:1px solid rgba(132,211,226,.12);border-radius:10px;cursor:default;touch-action:auto;}
+#wt-force-balance .wt-force-summary{display:flex;align-items:baseline;justify-content:space-between;margin:11px 2px 8px;gap:10px;}
+#wt-force-balance #wt-force-status{font-size:15px;color:#f6ffff;}
+#wt-force-balance #wt-force-percent{font:700 19px ui-monospace,Consolas,monospace;color:#8ae8f0;}
+#wt-force-balance .wt-force-progress{height:5px;background:rgba(134,203,221,.13);border-radius:10px;overflow:hidden;}
+#wt-force-balance #wt-force-progress-fill{display:block;width:100%;height:100%;background:linear-gradient(90deg,#48c8e4,#e5a96c);border-radius:10px;transition:width .12s;}
+#wt-force-balance .wt-force-conclusion{margin-top:9px;color:#b6d3df;font-size:12px;line-height:1.45;}
+@media(max-width:850px){#canvas-container .sim-controls .icon-btn{font-size:12px;padding:7px 8px;}#canvas-container #wt-force-balance{right:8px;top:8px;width:min(250px,65%);padding:10px;}#wt-force-balance #wt-force-graph{height:100px;}}
+body.practice-active #canvas-container #wt-force-balance,body.phase-five-active #canvas-container #wt-force-balance{display:none!important;}
+</style>
+
 </head>
 <body>
 
@@ -1534,7 +1584,16 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
                 <button class="icon-btn" id="btn-play-pause">▶ 开始模拟</button>
                 <button class="icon-btn" id="btn-reset-plume">🔄 重新释放烟羽</button>
                 <button class="icon-btn" id="btn-toggle-vectors">👁 显示受力箭头</button>
+                <button class="icon-btn wt-rate-btn" type="button" id="wt-slow-toggle" title="依次切换原速、半速和四分之一速">⏱ 1× 原速</button>
+                <button class="icon-btn wt-force-btn" type="button" id="wt-balance-toggle" aria-pressed="false" title="释放烟羽并显示受力箭头后，可观察二力或三力的合力变化">Σ 合力观察</button>
             </div>
+            <aside id="wt-force-balance" class="wt-force-balance" hidden aria-label="动态合力观察面板">
+                <div class="wt-force-heading"><span>FORCE ANALYSIS</span><strong id="wt-force-kind">二力平衡</strong></div>
+                <canvas id="wt-force-graph" width="560" height="270" aria-label="力矢量首尾相接与合力变化示意"></canvas>
+                <div class="wt-force-summary"><strong id="wt-force-status">正在建立风场</strong><span id="wt-force-percent">100%</span></div>
+                <div class="wt-force-progress"><i id="wt-force-progress-fill"></i></div>
+                <div class="wt-force-conclusion" id="wt-force-conclusion">观察受力矢量如何逐渐闭合</div>
+            </aside>
             
             <div class="notice-banner">本界面采用教学简化模型，数值与轨迹仅供定性探究，不代表真实数值预报。</div>
         </div>
@@ -1625,6 +1684,7 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
                         <button type="button" id="wt-south-draw" class="wt-south-primary">开始绘制</button>
                         <button type="button" id="wt-south-undo">撤销</button>
                         <button type="button" id="wt-south-clear">清空</button>
+                        <button type="button" id="wt-south-straight" class="draw-assist-toggle active" aria-pressed="true" title="开启时拖动会绘制直线箭头，关闭可自由绘制">直线辅助：开</button>
                     </div>
                     <button type="button" id="wt-south-verify" class="wt-south-verify">验证高空风向</button>
                     <div class="wt-south-report">
@@ -1648,10 +1708,9 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
                 </div>
 
                 <div class="control-group phase3-drawing-panel">
-                    <div class="control-header"><span>受力与烟羽绘图</span><span id="phase3-active-label">当前：北半球调查组</span></div>
+                    <div class="control-header"><span>受力与风向绘图</span><span id="phase3-active-label">当前：北半球调查组</span></div>
                     <div class="pen-palette" role="group" aria-label="绘图工具与受力颜色">
-                        <button type="button" class="pen-btn active" data-pen="#ffe45e" data-force="prediction" aria-pressed="true" title="烟羽预测"><span style="background:#ffe45e"></span><b>烟羽预测</b></button>
-                        <button type="button" class="pen-btn" data-pen="#ffaa00" data-force="pgf" aria-pressed="false" title="水平气压梯度力"><span style="background:#ffaa00"></span><b>气压梯度力</b></button>
+                        <button type="button" class="pen-btn active" data-pen="#ffaa00" data-force="pgf" aria-pressed="true" title="水平气压梯度力"><span style="background:#ffaa00"></span><b>气压梯度力</b></button>
                         <button type="button" class="pen-btn" data-pen="#b050ff" data-force="coriolis" aria-pressed="false" title="地转偏向力"><span style="background:#b050ff"></span><b>地转偏向力</b></button>
                         <button type="button" class="pen-btn" data-pen="#00f0ff" data-force="wind" aria-pressed="false" title="风向"><span style="background:#00f0ff"></span><b>风向</b></button>
                         <button type="button" class="pen-btn" data-pen="#39ff14" data-force="friction" aria-pressed="false" title="摩擦力"><span style="background:#39ff14"></span><b>摩擦力</b></button>
@@ -1660,6 +1719,7 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
                         <button type="button" class="btn-primary" id="btn-phase3-draw-toggle">✎ 开始绘制</button>
                         <button type="button" class="btn-secondary" id="btn-phase3-undo">↶ 撤销一笔</button>
                         <button type="button" class="btn-secondary" id="btn-phase3-clear">清空本组</button>
+                        <button type="button" class="btn-secondary draw-assist-toggle active" id="btn-phase3-straight" aria-pressed="true" title="开启时拖动会绘制直线箭头，关闭可自由绘制">直线辅助：开</button>
                     </div>
                     <div id="phase3-draw-status" class="phase3-draw-status" aria-live="polite">已绘制 0 笔 · 待验证</div>
                 </div>
@@ -1743,7 +1803,6 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
             <div class="evidence-header">
                 <div>
                     <span class="evidence-kicker">FIELD EVIDENCE · 现场影像证据</span>
-                    <h2 id="evidence-modal-title">三处观测点，三种</h2>
                 </div>
                 <button type="button" class="evidence-close" id="evidence-close" aria-label="关闭证据窗口">×</button>
             </div>
@@ -1864,12 +1923,13 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
                 plumeReleased: false,
                 phase2ToggledCoriolis: false,
                 phase2EvidenceSeen: false,
-                southHighAir: { active:false, drawing:false, verified:false, pen:'pgf', activeStroke:null, strokes:[] },
+                southHighAir: { active:false, drawing:false, verified:false, pen:'pgf', activeStroke:null, strokes:[], straight:true },
                 visitedGroupA: false,
                 visitedGroupB: false,
                 compareMode: false,
                 phase3DrawingEnabled: false,
-                phase3PenColor: '#ffe45e',
+                phase3PenColor: '#ffaa00',
+                phase3Straight: true,
                 phase3ActiveStroke: null,
                 phase3Strokes: { N: [], S: [] }
             },
@@ -1880,7 +1940,9 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
                 windAngleA: -Math.PI / 2,
                 windSpeedA: 0,
                 windAngleB: -Math.PI / 2,
-                windSpeedB: 0
+                windSpeedB: 0,
+                timeScale: 1,
+                balanceAssist: false
             }
         };
 
@@ -1938,18 +2000,18 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
                 this.vx = ux * targetSpeed * (0.40 + Math.random() * 0.24) - uy * (Math.random() - 0.5) * 0.11;
                 this.vy = uy * targetSpeed * (0.40 + Math.random() * 0.24) + ux * (Math.random() - 0.5) * 0.11;
             }
-            update(targetWindX, targetWindY, frictionLv = State.physics.frictionLv) {
-                const accel = 0.045;
+            update(targetWindX, targetWindY, frictionLv = State.physics.frictionLv, dt = 1) {
+                const accel = 1 - Math.pow(1 - 0.045, dt);
                 this.vx += (targetWindX - this.vx) * accel;
                 this.vy += (targetWindY - this.vy) * accel;
 
-                // 很轻的随机扩散只塑造烟雾边缘，不改变总体风向。
-                const turbulence = 0.035 + Math.max(0, frictionLv) * 0.018;
+                // 慢放时同时降低位移、湍动和粒子寿命的推进速度，保持平滑。
+                const turbulence = (0.035 + Math.max(0, frictionLv) * 0.018) * Math.sqrt(dt);
                 this.vx += (Math.random() - 0.5) * turbulence;
                 this.vy += (Math.random() - 0.5) * turbulence;
-                this.x += this.vx;
-                this.y += this.vy;
-                this.age++;
+                this.x += this.vx * dt;
+                this.y += this.vy * dt;
+                this.age += dt;
 
                 if (this.age > this.maxAge || this.x < -55 || this.x > C_WIDTH + 55 || this.y < -55 || this.y > C_HEIGHT + 55) {
                     this.reset(this.group);
@@ -2106,8 +2168,10 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
                 // 第三阶段特意放慢转向，让学生观察风向形成的连续过程；其他阶段也保留可见的过渡。
                 const angleRate = State.phase === 3 ? 0.006 : (State.phase === 2 ? 0.012 : 0.014);
                 const speedRate = State.phase === 3 ? 0.018 : 0.035;
-                State.sim[angleKey] += angleDifference(State.sim[angleKey], target.angle) * angleRate;
-                State.sim[speedKey] += (target.speed - State.sim[speedKey]) * speedRate;
+                const scaledAngleRate = 1 - Math.pow(1-angleRate, State.sim.timeScale);
+                const scaledSpeedRate = 1 - Math.pow(1-speedRate, State.sim.timeScale);
+                State.sim[angleKey] += angleDifference(State.sim[angleKey], target.angle) * scaledAngleRate;
+                State.sim[speedKey] += (target.speed - State.sim[speedKey]) * scaledSpeedRate;
             }
             const actualAngle = State.sim[angleKey];
             const actualSpeed = State.sim[speedKey];
@@ -2211,7 +2275,7 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
             const minPGF = (2 / 400) * 150;
             const maxPGF = (10 / 50) * 150;
             const normalizedPGF = Math.max(0, Math.min(1, (wind.pgfMag - minPGF) / (maxPGF - minPGF)));
-            const pgfLength = (18 + normalizedPGF * 72) * 1.4;
+            const pgfLength = (18 + normalizedPGF * 72) * 5;
             const forceLength = (magnitude) => wind.pgfMag > 0 ? pgfLength * magnitude / wind.pgfMag : 0;
             const activeHemisphere = getActiveHemisphere();
 
@@ -2381,6 +2445,12 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
             const drawToggle = document.getElementById('btn-phase3-draw-toggle');
             if (activeLabel) activeLabel.textContent = `当前：${groupLabel}`;
             if (drawToggle) drawToggle.textContent = State.view.phase3DrawingEnabled ? '✓ 完成绘制' : '✎ 开始绘制';
+            const assist = document.getElementById('btn-phase3-straight');
+            if (assist) {
+                assist.textContent = State.view.phase3Straight ? '直线辅助：开' : '直线辅助：关';
+                assist.classList.toggle('active', State.view.phase3Straight);
+                assist.setAttribute('aria-pressed', String(State.view.phase3Straight));
+            }
             if (status) status.textContent = `已绘制 ${strokes.length} 笔 · ${State.view.plumeVisible ? '已验证' : (State.view.phase3DrawingEnabled ? '绘制中' : '待验证')}`;
             document.getElementById('sim-canvas').classList.toggle('phase3-drawing', State.view.phase3DrawingEnabled);
             document.querySelectorAll('.pen-btn').forEach(btn => {
@@ -2424,6 +2494,12 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
             const active = State.phase === 2 && task.active;
             const drawButton = document.getElementById('wt-south-draw');
             if (drawButton) drawButton.textContent = task.drawing ? '完成绘制' : '开始绘制';
+            const assist = document.getElementById('wt-south-straight');
+            if (assist) {
+                assist.textContent = task.straight ? '直线辅助：开' : '直线辅助：关';
+                assist.classList.toggle('active', task.straight);
+                assist.setAttribute('aria-pressed', String(task.straight));
+            }
             const verify = document.getElementById('wt-south-verify');
             if (verify) verify.textContent = task.verified ? '重新验证高空风向' : '验证高空风向';
             document.querySelectorAll('.wt-south-pen').forEach(btn => {
@@ -2466,6 +2542,12 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
             State.view.showVectors=false;State.view.plumeVisible=false;State.sim.playing=false;
             updateSouthHighAirUI();
         });
+        document.getElementById('wt-south-straight').addEventListener('click', () => {
+            const task = State.view.southHighAir;
+            task.activeStroke = null;
+            task.straight = !task.straight;
+            updateSouthHighAirUI();
+        });
         document.getElementById('wt-south-verify').addEventListener('click', () => {
             const task = State.view.southHighAir;
             const drawn=new Set(task.strokes.filter(st=>st.points.length>1).map(st=>st.force));
@@ -2503,17 +2585,17 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
                     if (State.sim.playing && !State.view.isPredicting) {
                         const stateA = { ...State.physics, frictionLv: 0 };
                         const windA = getActualWindVector(stateA, true, 'A');
-                        particlesA.forEach(p => { p.update(windA.vx, windA.vy, 0); p.draw(ctx); });
+                        particlesA.forEach(p => { p.update(windA.vx, windA.vy, 0, State.sim.timeScale); p.draw(ctx); });
 
                         const stateB = { ...State.physics, frictionLv: State.physics.surfaceFrictionLv };
                         const windB = getActualWindVector(stateB, true, 'B');
-                        particlesB.forEach(p => { p.update(windB.vx, windB.vy, stateB.frictionLv); p.draw(ctx); });
+                        particlesB.forEach(p => { p.update(windB.vx, windB.vy, stateB.frictionLv, State.sim.timeScale); p.draw(ctx); });
                     } else {
                         particlesA.forEach(p => p.draw(ctx));
                         particlesB.forEach(p => p.draw(ctx));
                     }
                 } else if (State.sim.playing && !State.view.isPredicting) {
-                    particles.forEach(p => { p.update(displayWind.vx, displayWind.vy, State.physics.frictionLv); p.draw(ctx); });
+                    particles.forEach(p => { p.update(displayWind.vx, displayWind.vy, State.physics.frictionLv, State.sim.timeScale); p.draw(ctx); });
                 } else {
                     particles.forEach(p => p.draw(ctx));
                 }
@@ -2531,10 +2613,114 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
             if (!State.view.compareMode) drawVectors(displayWind);
             drawPrediction();
             drawPhase3Strokes();
+            wtDrawForceBalance(displayWind);
 
             updateHUD();
             requestAnimationFrame(render);
         }
+
+
+        // 合力观察：力矢量严格使用与主画布一致的简化模型力值与方向。
+        // 只有学生已释放烟羽、打开受力箭头后才能开启，避免提前揭示二力/三力终态。
+        const wtBalancePanel = document.getElementById('wt-force-balance');
+        const wtBalanceCanvas = document.getElementById('wt-force-graph');
+        const wtBalanceContext = wtBalanceCanvas.getContext('2d');
+        const wtBalanceBtn = document.getElementById('wt-balance-toggle');
+        const wtRateBtn = document.getElementById('wt-slow-toggle');
+        function wtSyncMotionControls() {
+            const factor=State.sim.timeScale;
+            wtRateBtn.textContent = factor===1?'⏱ 1× 原速':`⏱ ${factor}× 慢放`;
+            wtRateBtn.classList.toggle('wt-slowed',factor!==1);
+            wtRateBtn.setAttribute('aria-label',`当前${factor}倍速，点击切换播放速度`);
+            const enabled=Boolean(State.sim.balanceAssist);
+            wtBalanceBtn.classList.toggle('wt-active',enabled);
+            wtBalanceBtn.setAttribute('aria-pressed', String(enabled));
+            wtBalanceBtn.textContent=enabled?'Σ 收起合力':'Σ 合力观察';
+            const eligible=State.phase===2||State.phase===3;
+            wtBalanceBtn.hidden=!eligible;
+            wtBalancePanel.hidden=!enabled||!eligible||!State.view.showVectors||!State.view.plumeVisible||State.view.compareMode;
+        }
+        function wtForceArrow(c,x0,y0,x1,y1,col,label){
+            const a=Math.atan2(y1-y0,x1-x0);
+            c.lineCap='round';c.lineJoin='round';c.strokeStyle='rgba(0,0,0,.88)';c.lineWidth=6;
+            c.beginPath();c.moveTo(x0,y0);c.lineTo(x1,y1);
+            c.lineTo(x1-11*Math.cos(a-.5),y1-11*Math.sin(a-.5));c.moveTo(x1,y1);c.lineTo(x1-11*Math.cos(a+.5),y1-11*Math.sin(a+.5));c.stroke();
+            c.strokeStyle=col;c.lineWidth=3.3;c.beginPath();c.moveTo(x0,y0);c.lineTo(x1,y1);
+            c.lineTo(x1-11*Math.cos(a-.5),y1-11*Math.sin(a-.5));c.moveTo(x1,y1);c.lineTo(x1-11*Math.cos(a+.5),y1-11*Math.sin(a+.5));c.stroke();
+            c.fillStyle='#effbff';c.font='bold 20px sans-serif';c.textAlign='center';
+            const midx=(x0+x1)/2,midy=(y0+y1)/2;
+            c.strokeStyle='#061525';c.lineWidth=4;c.strokeText(label,midx+11,midy-8);c.fillText(label,midx+11,midy-8);
+        }
+        function wtDrawForceBalance(wind){
+            if(!State.sim.balanceAssist){ wtBalancePanel.hidden=true;return; }
+            const valid=(State.phase===2||State.phase===3)&&State.physics.coriolis;
+            if(!valid||!State.view.plumeVisible||!State.view.showVectors||State.view.compareMode){
+                wtBalancePanel.hidden=true;return;
+            }
+            wtBalancePanel.hidden=false;
+            const pgfAng=getPressureGradientAngle(),f=wind.pgfMag;
+            const corAng=wind.angle+(getActiveHemisphere()==='N'?Math.PI/2:-Math.PI/2);
+            const isSurface=State.physics.frictionLv>0;
+            const ff=isSurface?wind.frictionMag:0;
+            const vectors=[
+                {x:Math.cos(pgfAng)*f,y:Math.sin(pgfAng)*f,col:'#ffaa00',label:'Fp'},
+                {x:Math.cos(corAng)*wind.speed,y:Math.sin(corAng)*wind.speed,col:'#b050ff',label:'Fc'}
+            ];
+            if(ff>0.00001) vectors.push({x:Math.cos(wind.angle+Math.PI)*ff,y:Math.sin(wind.angle+Math.PI)*ff,col:'#39ff14',label:'Ff'});
+            const points=[{x:0,y:0}];
+            vectors.forEach(v=>{const p=points[points.length-1];points.push({x:p.x+v.x,y:p.y+v.y});});
+            const end=points[points.length-1];
+            const ratio=Math.hypot(end.x,end.y)/Math.max(0.000001,f);
+            const balanced=ratio<.075;
+            document.getElementById('wt-force-kind').textContent=isSurface?(balanced?'三力近似平衡':'三力合成'):(balanced?'二力近似平衡':'二力合成');
+            document.getElementById('wt-force-status').textContent=balanced?'接近受力平衡':ratio<.35?'正在趋近于平衡':'风向仍在调整';
+            document.getElementById('wt-force-percent').textContent=`ΣF ${(ratio*100).toFixed(0)}%`;
+            document.getElementById('wt-force-percent').title='合力相对于水平气压梯度力的百分比（教学模拟值）';
+            document.getElementById('wt-force-progress-fill').style.width=`${Math.min(100,ratio*100)}%`;
+            document.getElementById('wt-force-conclusion').textContent=balanced?(isSurface?'合力趋近0：近地面风稳定斜穿等压线':'合力趋近0：理想稳定高空风沿等压线'):(isSurface?'合力相对强度 · 观察三种力首尾相接':'合力相对强度 · 观察两种力逐步抵消');
+            const c=wtBalanceContext,cw=560,ch=270;
+            c.clearRect(0,0,cw,ch);
+            c.strokeStyle='rgba(155,217,235,.08)';c.lineWidth=1;
+            for(let yy=40;yy<ch;yy+=44){c.beginPath();c.moveTo(0,yy);c.lineTo(cw,yy);c.stroke();}
+            const xs=points.map(p=>p.x),ys=points.map(p=>p.y);
+            const rangeX=Math.max(...xs)-Math.min(...xs),rangeY=Math.max(...ys)-Math.min(...ys);
+            const scale=Math.min(155/Math.max(rangeX,.01),175/Math.max(rangeY,.01),190/Math.max(f,.01));
+            const midX=(Math.min(...xs)+Math.max(...xs))/2,midY=(Math.min(...ys)+Math.max(...ys))/2;
+            const map=p=>({x:cw/2+(p.x-midX)*scale,y:ch/2+(p.y-midY)*scale});
+            const start=map(points[0]),finish=map(end);
+            c.strokeStyle='rgba(216,239,249,.12)';c.lineWidth=1;c.setLineDash([5,9]);
+            c.beginPath();c.moveTo(start.x,0);c.lineTo(start.x,ch);c.stroke();c.setLineDash([]);
+            for(let i=0;i<vectors.length;i++){
+                const a=map(points[i]),b=map(points[i+1]),v=vectors[i];
+                wtForceArrow(c,a.x,a.y,b.x,b.y,v.col,v.label);
+            }
+            c.fillStyle='#d7f9ff';c.beginPath();c.arc(start.x,start.y,4.2,0,Math.PI*2);c.fill();
+            if(ratio>.045){c.strokeStyle='rgba(220,242,253,.87)';c.lineWidth=2.2;c.setLineDash([7,5]);c.beginPath();c.moveTo(start.x,start.y);c.lineTo(finish.x,finish.y);c.stroke();c.setLineDash([]);}
+            c.fillStyle=balanced?'#8ff4d6':'#f2ce93';c.beginPath();c.arc(finish.x,finish.y,balanced?7:5,0,Math.PI*2);c.fill();
+        }
+        wtRateBtn.addEventListener('click',()=>{
+            const opts=[1,.5,.25],i=opts.indexOf(State.sim.timeScale);
+            State.sim.timeScale=opts[(i+1)%opts.length];
+            wtSyncMotionControls();
+        });
+        wtBalanceBtn.addEventListener('click',()=>{
+            if(!State.physics.coriolis){alert('请先开启地转偏向力，再观察受力平衡。');return;}
+            if(State.view.isPredicting||!State.view.plumeVisible||!State.view.showVectors){
+                alert('请先完成预测与烟羽验证，点击“显示受力箭头”后再观察合力。');return;
+            }
+            if(State.phase===2&&State.view.southHighAir.active&&!State.view.southHighAir.verified){
+                alert('请先完成南半球高空风受力绘制与验证，再查看合力。');return;
+            }
+            if(State.phase===3){
+                const hem=State.physics.phase3Hemisphere;
+                if(!(State.view.phase3Strokes[hem]||[]).some(st=>st.points?.length>1)){
+                    alert('请先由学生完成本组受力绘制与验证。');return;
+                }
+            }
+            State.sim.balanceAssist=!State.sim.balanceAssist;
+            wtSyncMotionControls();
+        });
+        wtSyncMotionControls();
 
         /**
          * 交互与控制逻辑
@@ -2554,7 +2740,6 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
             show('legend-wind', (State.view.plumeVisible && vectorVisible) || drawnWith('#00f0ff'));
             show('legend-prediction', State.view.isPredicting ||
                 (State.phase === 1 && State.view.predictionAngle !== null) ||
-                drawnWith('#ffe45e') ||
                 (State.phase === 5 && State.view.finalPredictionAngle !== null));
             const legendBox = document.getElementById('force-legend-card');
             if (legendBox) {
@@ -2611,6 +2796,9 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
         }
 
         function updatePhaseUI() {
+            State.sim.balanceAssist=false;
+            State.sim.timeScale=1;
+            wtSyncMotionControls();
             window.WTIncomingSignal?.phaseChanged(State.phase);
             document.body.classList.toggle('wt-south-task-active', State.phase === 2 && State.view.southHighAir.active);
             updateSouthHighAirUI();
@@ -2696,7 +2884,7 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
                     return;
                 }
                 if (!northHasDrawing || !southHasDrawing) {
-                    alert('请两组都至少绘制一条预测轨迹，再提交联合调查。');
+                    alert('请两组都至少绘制一条受力或风向箭头，再提交联合调查。');
                     return;
                 }
             }
@@ -3027,6 +3215,11 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
             syncUI();
             updatePhase3DrawingUI();
         });
+        document.getElementById('btn-phase3-straight').addEventListener('click', () => {
+            State.view.phase3ActiveStroke = null;
+            State.view.phase3Straight = !State.view.phase3Straight;
+            updatePhase3DrawingUI();
+        });
         document.querySelectorAll('.pen-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 State.view.phase3PenColor = btn.dataset.pen;
@@ -3153,6 +3346,8 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
                 return;
             }
             State.view.showVectors = !State.view.showVectors;
+            if(!State.view.showVectors) State.sim.balanceAssist=false;
+            wtSyncMotionControls();
             syncUI();
         });
 
@@ -3211,15 +3406,26 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
             if (south && south.active && south.drawing && south.activeStroke) {
                 event.preventDefault();
                 const pts = south.activeStroke.points;
-                const last = pts[pts.length - 1];
-                if (Math.hypot(point.x - last.x, point.y - last.y) >= 2) pts.push(point);
+                if (south.straight) {
+                    // Drag to preview a precise vector; replace its endpoint each frame.
+                    if (pts.length === 1) pts.push(point);
+                    else pts.splice(1, pts.length - 1, point);
+                } else {
+                    const last = pts[pts.length - 1];
+                    if (Math.hypot(point.x - last.x, point.y - last.y) >= 2) pts.push(point);
+                }
                 return;
             }
             if (State.phase === 3 && State.view.phase3DrawingEnabled && State.view.phase3ActiveStroke) {
                 event.preventDefault();
                 const pts = State.view.phase3ActiveStroke.points;
-                const last = pts[pts.length - 1];
-                if (Math.hypot(point.x - last.x, point.y - last.y) >= 2) pts.push(point);
+                if (State.view.phase3Straight) {
+                    if (pts.length === 1) pts.push(point);
+                    else pts.splice(1, pts.length - 1, point);
+                } else {
+                    const last = pts[pts.length - 1];
+                    if (Math.hypot(point.x - last.x, point.y - last.y) >= 2) pts.push(point);
+                }
             }
         });
 
@@ -3265,7 +3471,7 @@ body.phase-five-active #top-left-overlay,body.phase-five-active .sim-controls,bo
             event.preventDefault();
             const point = getCanvasPoint(event);
             const hem = State.physics.phase3Hemisphere;
-            const stroke = { hemisphere: hem, color: State.view.phase3PenColor, force: document.querySelector('.pen-btn.active')?.dataset.force || 'prediction', points: [point] };
+            const stroke = { hemisphere: hem, color: State.view.phase3PenColor, force: document.querySelector('.pen-btn.active')?.dataset.force || 'pgf', points: [point] };
             State.view.phase3Strokes[hem].push(stroke);
             State.view.phase3ActiveStroke = stroke;
             if (canvas.setPointerCapture) canvas.setPointerCapture(event.pointerId);
@@ -3595,7 +3801,7 @@ setInterval(()=>{const el=document.getElementById('ops-clock');if(el&&!state.clo
 // Real, interactive basemap (© OSM). The backup iframe also shows a real map if CDN scripts are blocked.
 const mapElement=document.getElementById('ops-map');
 // 【导入地图默认缩放】13 看临港片区，14 看完整滴水湖和周边，15 看湖岸街区（可自行调整）
-const OPS_MAP_INITIAL_ZOOM=14;
+const OPS_MAP_INITIAL_ZOOM=11;
 const lat=30.902727, lon=121.928728;
 const monitoringSite=[30.9163,121.9215];
 // Offline preview is clearly labelled as a schematic; when Leaflet loads, it is replaced by the real OSM map.
